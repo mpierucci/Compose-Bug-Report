@@ -1,10 +1,15 @@
 package com.mpierucci.composecrash.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.google.accompanist.insets.statusBarsPadding
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
@@ -39,6 +44,14 @@ fun ComposeCrashTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Comp
         colors = colors,
         typography = Typography,
         shapes = Shapes,
-        content = content
+        content = {
+            ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
+                Box(
+                    modifier = Modifier
+                        .statusBarsPadding()
+                        .navigationBarsWithImePadding()
+                ) { content() }
+            }
+        }
     )
 }
