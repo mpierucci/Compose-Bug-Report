@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.dp
-import com.mpierucci.composecrash.loader.LoadingItem
 
 @Composable
 fun CustomScaffold(
@@ -28,7 +27,7 @@ fun CustomScaffold(
                 is ScaffoldState.Content -> {
                     Content(scrollState = scrollState, content = state.content)
                 }
-                ScaffoldState.Loading -> Loading(Color.Black)
+                ScaffoldState.Loading -> Loading()
             }
             Buttons(state)
         }
@@ -104,10 +103,6 @@ private fun Buttons(state: ScaffoldState) {
 }
 
 @Composable
-private fun Loading(backgroundColor: Color) {
-    LoadingItem(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(backgroundColor)
-    )
+private fun Loading() {
+    Box {}
 }
