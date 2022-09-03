@@ -7,8 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.core.view.WindowCompat
-import com.mpierucci.composecrash.pager.PageOne
-import com.mpierucci.composecrash.pager.PageTwo
+import com.mpierucci.composecrash.pager.Page
 import com.mpierucci.composecrash.pager.Pager
 import com.mpierucci.composecrash.ui.theme.ComposeCrashTheme
 
@@ -24,7 +23,7 @@ class MainActivity : AppCompatActivity() {
                 val state by viewModel.state.observeAsState()
                 Pager(
                     state = state!!,
-                    pages = listOf(PageOne(viewModel), PageTwo(viewModel))
+                    renderPage = Page(viewModel)
                 )
             }
         }

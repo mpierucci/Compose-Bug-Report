@@ -11,27 +11,20 @@ import com.mpierucci.composecrash.State
 import com.mpierucci.composecrash.ui.theme.CustomScaffold
 import com.mpierucci.composecrash.ui.theme.ScaffoldState
 
-interface Page {
 
-    @Composable
-    fun Render(state: State)
-}
-
-
-class PageOne(
+class Page(
     private val viewModel: MainViewModel
-) : Page {
+) {
 
     @Composable
-    override fun Render(state: State) {
+    fun Render(state: State) {
         CustomScaffold(
             state = when (state.pageOne) {
                 false -> ScaffoldState.Content(
                     buttons = { PageOneButtons(viewModel::updatePageOne) },
                     content = { PageOneContent() }
                 )
-                true -> ScaffoldState.Loading
-                null -> ScaffoldState.Content(content = { DefaultPageContent(viewModel::updatePageOne) })
+                else -> ScaffoldState.Loading
             }
         )
     }
@@ -42,7 +35,7 @@ class PageOne(
         Column {
             Text(text = "Showing page one content", color = MaterialTheme.colors.onBackground)
             Text(text = "Nothing special", color = MaterialTheme.colors.onBackground)
-            OutlinedTextField(value = "asdasdsd", onValueChange = {} )
+            OutlinedTextField(value = "asdasdsd", onValueChange = {})
         }
     }
 
@@ -55,50 +48,3 @@ class PageOne(
     }
 }
 
-class PageTwo(
-    private val viewModel: MainViewModel
-) : Page {
-
-    @Composable
-    override fun Render(state: State) {
-        CustomScaffold(
-            state = when (state.pageTwo) {
-                false -> ScaffoldState.Content(
-                    buttons = { PageTwoButtons(viewModel::updatePageTwo) },
-                    content = { PageTwoContent() }
-                )
-                true -> ScaffoldState.Loading
-                null -> ScaffoldState.Content(content = { DefaultPageContent(viewModel::updatePageTwo) })
-            }
-        )
-    }
-
-
-    @Composable
-    private fun PageTwoContent() {
-        Column {
-            Text(text = "Showing page two content", color = MaterialTheme.colors.onBackground)
-            Text(text = "Nothing special", color = MaterialTheme.colors.onBackground)
-        }
-    }
-
-
-    @Composable
-    private fun PageTwoButtons(onUpdateClick: () -> Unit) {
-        Button(onClick = onUpdateClick) {
-            Text(text = "Mutate PageTwo State")
-        }
-    }
-}
-
-@Composable
-private fun DefaultPageContent(
-    onButtonClick: () -> Unit
-) {
-    Column {
-        Text(text = "Displaying Some Default content", color = MaterialTheme.colors.onBackground)
-        Button(onClick = onButtonClick) {
-            Text(text = "No-op")
-        }
-    }
-}
