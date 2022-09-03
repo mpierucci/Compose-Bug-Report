@@ -1,45 +1,32 @@
 package com.mpierucci.composecrash
 
-import android.app.Activity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.core.view.WindowCompat
-import androidx.fragment.app.FragmentContainerView
-import androidx.fragment.app.commit
-import androidx.navigation.fragment.NavHostFragment
+import com.mpierucci.composecrash.pager.PageOne
+import com.mpierucci.composecrash.pager.PageTwo
+import com.mpierucci.composecrash.pager.Pager
+import com.mpierucci.composecrash.ui.theme.ComposeCrashTheme
 
 class MainActivity : AppCompatActivity() {
+
+    private val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        setContentView(contentView())
-        keepScreenOn()
-    }
 
-
-    private fun contentView(): View =
-        FragmentContainerView(this).also { view ->
-            view.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            view.id = View.generateViewId()
-            NavHostFragment.create(R.navigation.nav_grap).also { host ->
-                supportFragmentManager.commit {
-                    replace(view.id, host)
-                    setReorderingAllowed(true)
-                    setPrimaryNavigationFragment(host)
-                }
+        setContent {
+            ComposeCrashTheme {
+                val state by viewModel.state.observeAsState()
+                Pager(
+                    state = state!!,
+                    pages = listOf(PageOne(viewModel), PageTwo(viewModel))
+                )
             }
         }
-
-
-    fun Activity.keepScreenOn(enable: Boolean = true) {
-        if (enable) window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 }
