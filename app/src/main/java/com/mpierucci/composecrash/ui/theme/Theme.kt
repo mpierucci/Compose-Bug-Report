@@ -44,14 +44,6 @@ fun ComposeCrashTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Comp
         colors = colors,
         typography = Typography,
         shapes = Shapes,
-        content = {
-            ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
-                Box(
-                    modifier = Modifier
-                        .statusBarsPadding()
-                        .navigationBarsWithImePadding()
-                ) { content() }
-            }
-        }
+        content = content
     )
 }
